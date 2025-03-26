@@ -29,3 +29,4 @@ Its a Astrology system, where the aspects I believe hold most relevance and sign
 ### Development
 - Its a side project...
 1. Chinese Astrology does work, while Tzolkin and Dreamspell, do not work, after multiple attempts at fixing. Try in DeepSeek R1.
+2. User input needs to be on same line as the prompt ` Selection; New Date = 0000/00/00, Todays Date = D, Exit Program = X:`, not the line after.
