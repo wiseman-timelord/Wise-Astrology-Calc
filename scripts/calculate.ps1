@@ -34,15 +34,15 @@ function Get-TzolkinInfo {
     param (
         [Parameter(Mandatory = $true)][int]$JulianDay
     )
-    # Corrected reference: January 0, 1900, JD 2415020 → 4 Ahau
-    $refJD = 2415020
-    $refNumber = 4
-    $refDayIndex = 19  # Ahau is index 19 (0-based)
+    # GMT Correlation: 4 Ahau = JD 584283 (August 11, 3114 BCE)
+    $refJD = 584283
+    $refNumber = 4  # Tzolkin number for reference date
+    $refDayIndex = 19  # Ahau's position in the array (0-based)
 
     $daysSinceRef = $JulianDay - $refJD
     $tzolkinNumber = (($daysSinceRef + $refNumber - 1) % 13) + 1
-    $dayIndex = (($daysSinceRef + $refDayIndex) % 20)
-    $tzolkinName = $tzolkinNames[$dayIndex]
+    $dayIndex = ($daysSinceRef + $refDayIndex) % 20
+    $tzolkinName = $script:tzolkinNames[$dayIndex]
 
     return @{
         Number = $tzolkinNumber
@@ -55,13 +55,18 @@ function Get-DreamspellInfo {
     param (
         [Parameter(Mandatory = $true)][int]$JulianDay
     )
-    # Corrected reference: July 26, 1987, JD 2446993 → Kin 1
-    $refJD = 2446993
+    # Reference Julian Day set to March 18, 1988, to align with AstroDreamAdvisor.Com
+    $refJD = 2447240
     $daysSinceRef = $JulianDay - $refJD
-    $kin = ($daysSinceRef % 260) + 1
+
+    # Calculate kin, handling negative daysSinceRef
+    $kin = $daysSinceRef % 260
+    if ($kin -lt 0) { $kin += 260 }
+    $kin += 1
+
     $tone = (($kin - 1) % 13) + 1
-    $sealIndex = (($kin - 1) % 20)
-    $seal = $dreamspellSeals[$sealIndex]
+    $sealIndex = ($kin - 1) % 20
+    $seal = $script:dreamspellSeals[$sealIndex]
 
     return @{
         Tone = $tone

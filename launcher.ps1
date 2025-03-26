@@ -1,4 +1,4 @@
-# `.\launcher.ps1` - Main script for the World-Astrology Calculator
+# `.\launcher.ps1` - Main script for the Wise-Astrology-Calc
 
 # Import calculation functions
 . "$PSScriptRoot\scripts\calculate.ps1"
@@ -18,26 +18,36 @@ while ($true) {
 
     # Display the astrology information
     Clear-Host
-    Write-Host "================================================================================"
-    Write-Host "     World-Astrology Calculator"
-    Write-Host "================================================================================"
+    Write-Host "========================================================================================================================"
+    Write-Host "    Wise-Astrology-Calc"
+    Write-Host "========================================================================================================================"
     Write-Host ""
     Write-Host ""
-    Write-Host " Date: $($currentDate.ToString('yyyy/MM/dd'))"
-    Write-Host ""
-    Write-Host "     Power: $($dreamspellInfo.Seal) $($dreamspellInfo.Tone)"
-    Write-Host ""
-    Write-Host "     Ability: $($tzolkinInfo.Name) $($tzolkinInfo.Number)"
-    Write-Host ""
-    Write-Host "     Personality: $($chineseInfo.MonthAnimal)"
-    Write-Host ""
-    Write-Host "     Species: $($chineseInfo.YearAnimal)"
     Write-Host ""
     Write-Host ""
-    Write-Host "--------------------------------------------------------------------------------"
+    Write-Host ""
+    Write-Host ""
+    Write-Host ""
+    Write-Host "Date: $($currentDate.ToString('yyyy/MM/dd'))"
+    Write-Host ""
+    Write-Host "    Power: $($dreamspellInfo.Seal) $($dreamspellInfo.Tone)"
+    Write-Host ""
+    Write-Host "    Ability: $($tzolkinInfo.Name) $($tzolkinInfo.Number)"
+    Write-Host ""
+    Write-Host "    Personality: $($chineseInfo.MonthAnimal)"
+    Write-Host ""
+    Write-Host "    Species: $($chineseInfo.YearAnimal)"
+    Write-Host ""
+    Write-Host ""
+    Write-Host ""
+    Write-Host ""
+    Write-Host ""
+    Write-Host ""
+    Write-Host ""
+    Write-Host "------------------------------------------------------------------------------------------------------------------------"
 
     # Handle user input on the same line
-    $input = Read-Host -Prompt " Selection; New Date = 0000/00/00, Todays Date = D, Exit Program = X"
+    $input = Read-Host -Prompt "Selection; New Date = 0000/00/00, Todays Date = D, Exit Program = X"
     switch ($input) {
         "X" { exit }
         "D" { $currentDate = $today }
