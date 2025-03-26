@@ -8,7 +8,7 @@ Its a Astrology system, where the aspects I believe hold most relevance and sign
 - It would look something like this...
 ```
 ================================================================================
-     World-Astrology Calculator
+     Wise-Astrology Calc
 ================================================================================
 
 
