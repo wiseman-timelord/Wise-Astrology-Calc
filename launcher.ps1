@@ -23,7 +23,7 @@ while ($true) {
     Write-Host "================================================================================"
     Write-Host ""
     Write-Host ""
-    Write-Host " Date: $($currentDate.ToString('yyyy/MM/dd'))"...
+    Write-Host " Date: $($currentDate.ToString('yyyy/MM/dd'))"
     Write-Host ""
     Write-Host "     Power: $($dreamspellInfo.Seal) $($dreamspellInfo.Tone)"
     Write-Host ""
@@ -35,10 +35,9 @@ while ($true) {
     Write-Host ""
     Write-Host ""
     Write-Host "--------------------------------------------------------------------------------"
-    Write-Host " Selection; New Date = 0000/00/00, Todays Date = D, Exit Program = X:"
 
-    # Handle user input
-    $input = Read-Host
+    # Handle user input on the same line
+    $input = Read-Host -Prompt " Selection; New Date = 0000/00/00, Todays Date = D, Exit Program = X"
     switch ($input) {
         "X" { exit }
         "D" { $currentDate = $today }

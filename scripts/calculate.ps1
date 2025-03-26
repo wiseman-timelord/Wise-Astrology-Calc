@@ -16,7 +16,7 @@ $script:chineseNewYearDates = @{
     2026 = [datetime]"2026-02-17"
 }
 
-# Calculate Julian Day Number (current formula works for recent dates, keep as is)
+# Calculate Julian Day Number
 function Get-JulianDay {
     param (
         [Parameter(Mandatory = $true)][datetime]$Date
@@ -29,15 +29,15 @@ function Get-JulianDay {
     return $jd
 }
 
-# Calculate Tzolkin info (adjusted for astrodreamadvisor.com)
+# Calculate Tzolkin info (adjusted reference JD)
 function Get-TzolkinInfo {
     param (
         [Parameter(Mandatory = $true)][int]$JulianDay
     )
-    # Reference: January 0, 1900, JD 2415020 = 4 Ahau (Number 4, Day Sign 20, index 19 for 0-based)
+    # Corrected reference: January 0, 1900, JD 2415020 → 4 Ahau
     $refJD = 2415020
     $refNumber = 4
-    $refDayIndex = 19  # Ahau is day 20, 0-based index 19
+    $refDayIndex = 19  # Ahau is index 19 (0-based)
 
     $daysSinceRef = $JulianDay - $refJD
     $tzolkinNumber = (($daysSinceRef + $refNumber - 1) % 13) + 1
@@ -50,13 +50,13 @@ function Get-TzolkinInfo {
     }
 }
 
-# Calculate Dreamspell info (adjusted for astrodreamadvisor.com)
+# Calculate Dreamspell info (adjusted reference JD)
 function Get-DreamspellInfo {
     param (
         [Parameter(Mandatory = $true)][int]$JulianDay
     )
-    # Reference: July 26, 1987, JD 2446992 = Kin 1 (Magnetic Dragon)
-    $refJD = 2446992
+    # Corrected reference: July 26, 1987, JD 2446993 → Kin 1
+    $refJD = 2446993
     $daysSinceRef = $JulianDay - $refJD
     $kin = ($daysSinceRef % 260) + 1
     $tone = (($kin - 1) % 13) + 1
@@ -69,7 +69,7 @@ function Get-DreamspellInfo {
     }
 }
 
-# Calculate Chinese info (unchanged, already correct)
+# Calculate Chinese info (unchanged)
 function Get-ChineseInfo {
     param (
         [Parameter(Mandatory = $true)][datetime]$Date,
