@@ -15,19 +15,19 @@ Its a Astrology system, where the aspects I believe hold most relevance and sign
 
 
 
-Calculated Date: 1981/07/13
+Calculated Date: 2025/03/26
 
-Power/Gift: Sun 4
-Details: Sun: Universal fire and life, enlightens with joy and illumination.
+Power/Gift: Wind 2
+Details: Communication and spirit, inspires clear expression and ideas.
 
-Role/Ability: Cib 12
-Details: Cib: Vulture, owl, links to ancestral wisdom and past.
+Role/Ability: Etznab 10
+Details: Flint, mirror, reflects truth and clarity.
 
-Persona/Head: Goat
-Details: Calm, creative, gentle, empathetic, may be indecisive.
+Persona/Head: Rabbit
+Details: Gentle, kind, elegant, artistic, but cautious.
 
-Physique/Body: Rooster
-Details: Proud, sharp, with a confident stance.
+Physique/Body: Snake
+Details: Sleek, elegant, with a mysterious allure.
 
 
 
