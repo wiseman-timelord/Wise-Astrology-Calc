@@ -14,10 +14,9 @@ Its a Astrology system, where the aspects I believe hold most relevance and sign
 
 
 
-
 Calculated Date: 2025/03/26
 
-Power/Gift: Wind 2
+Power/Energy: Wind 2
 Details: Communication and spirit, inspires clear expression and ideas.
 
 Role/Ability: Etznab 10
@@ -44,7 +43,5 @@ Selection; New Date = 0000/00/00, Today's Date = D, Exit Program = X:
 - Powershell ~v5
 
 ## Development
-- it needs to be like `Details: Vulture, owl, links to ancestral wisdom and past.` not `Details: Cib: Vulture, owl, links to ancestral wisdom and past.`.
-- Dreamspell or Power/Gift is broken.
-- Gift is not correct word for dreamspell. Determine best word to replace, as needed for spacing. 
+- Dreamspell or Power/Energy is broken.
 - There may be further development, possibly a gradio interface, or rainmeter integration.
