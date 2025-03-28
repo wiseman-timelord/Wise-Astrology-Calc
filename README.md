@@ -1,5 +1,5 @@
 # Wise-Astrology-Calc
-Status = Alpha(Dreamspell or Power/Energy is broken currently)
+Status = Alpha (Dreamspell or Power/Energy is broken currently)
 
 ### Description
 Its a Astrology system, where the aspects I believe hold most relevance and significance, this includes; DreamSpell Day, Tzolkin Day, Chinese Month, Chinese Year.
@@ -43,5 +43,5 @@ Selection; New Date = 0000/00/00, Today's Date = D, Exit Program = X:
 - Powershell ~v5
 
 ## Development
-- Dreamspell or Power/Energy is broken.
-- There may be further development, possibly a gradio interface, or rainmeter integration.
+- Dreamspell or Power/Energy is broken, after multiple multiple re-attempts to fix this with, Grok3Beta and Deepseek R1. It must be completed, as its critical functioning.
+- There is other further development, possibly a gradio interface, or rainmeter integration.
