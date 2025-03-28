@@ -44,6 +44,7 @@ Selection; New Date = 0000/00/00, Today's Date = D, Exit Program = X:
 - Powershell ~v5
 
 ## Development
+- it needs to be like `Details: Vulture, owl, links to ancestral wisdom and past.` not `Details: Cib: Vulture, owl, links to ancestral wisdom and past.`.
 - Dreamspell or Power/Gift is broken.
 - Gift is not correct word for dreamspell. Determine best word to replace, as needed for spacing. 
 - There may be further development, possibly a gradio interface, or rainmeter integration.
