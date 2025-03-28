@@ -28,7 +28,7 @@ while ($true) {
     Write-Host ""	
     Write-Host "Calculated Date: $($currentDate.ToString('yyyy/MM/dd'))"
     Write-Host ""
-    Write-Host "Power/Gift: $($dreamspellInfo.Seal) $($dreamspellInfo.Tone)"
+    Write-Host "Power/Energy: $($dreamspellInfo.Seal) $($dreamspellInfo.Tone)"
     Write-Host "Details: $($dreamspellInfo.Description)"
     Write-Host ""
     Write-Host "Role/Ability: $($tzolkinInfo.Name) $($tzolkinInfo.Number)"
