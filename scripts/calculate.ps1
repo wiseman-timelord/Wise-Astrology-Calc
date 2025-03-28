@@ -1,4 +1,7 @@
-# `.\scripts\calculate.ps1` - Functions for calculating astrology information
+# calculate.ps1 - Functions for calculating astrology information
+
+# Load descriptions from astrology.ps1
+. "$PSScriptRoot\astrology.ps1"
 
 # Define constants
 $script:tzolkinNames = @("Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", 
@@ -29,37 +32,39 @@ function Get-JulianDay {
     return $jd
 }
 
-# Calculate Tzolkin info (adjusted reference JD)
+# Calculate Tzolkin info
 function Get-TzolkinInfo {
     param (
         [Parameter(Mandatory = $true)][int]$JulianDay
     )
-    # GMT Correlation: 4 Ahau = JD 584283 (August 11, 3114 BCE)
-    $refJD = 584283
-    $refNumber = 4  # Tzolkin number for reference date
-    $refDayIndex = 19  # Ahau's position in the array (0-based)
+    $refJD = 584283  # 4 Ahau, August 11, 3114 BCE
+    $refNumber = 4   # Tzolkin number on reference date
+    $refDayIndex = 19  # Ahau's index
 
     $daysSinceRef = $JulianDay - $refJD
     $tzolkinNumber = (($daysSinceRef + $refNumber - 1) % 13) + 1
     $dayIndex = ($daysSinceRef + $refDayIndex) % 20
     $tzolkinName = $script:tzolkinNames[$dayIndex]
 
+    # Add description
+    $description = $script:tzolkinDayDescriptions[$dayIndex]
+
     return @{
         Number = $tzolkinNumber
         Name   = $tzolkinName
+        Description = $description
     }
 }
 
-# Calculate Dreamspell info (adjusted reference JD)
+# Calculate Dreamspell info
 function Get-DreamspellInfo {
     param (
-        [Parameter(Mandatory = $true)][int]$JulianDay
+ 
+   
+    [Parameter(Mandatory = $true)][int]$JulianDay
     )
-    # Reference Julian Day set to March 18, 1988, to align with AstroDreamAdvisor.Com
-    $refJD = 2447240
+    $refJD = 2447240  # March 18, 1988, for alignment
     $daysSinceRef = $JulianDay - $refJD
-
-    # Calculate kin, handling negative daysSinceRef
     $kin = $daysSinceRef % 260
     if ($kin -lt 0) { $kin += 260 }
     $kin += 1
@@ -68,19 +73,52 @@ function Get-DreamspellInfo {
     $sealIndex = ($kin - 1) % 20
     $seal = $script:dreamspellSeals[$sealIndex]
 
+    # Add description
+    $description = $script:dreamspellSealDescriptions[$sealIndex]
+
     return @{
         Tone = $tone
         Seal = $seal
+        Description = $description
     }
 }
 
-# Calculate Chinese info (unchanged)
+# Helper function to get month animal based on approximate solar term date ranges
+function Get-MonthAnimal {
+    param (
+        [datetime]$Date
+    )
+    $year = $Date.Year
+    $ranges = @(
+        @{ Start = [datetime]"$year-01-01"; End = [datetime]"$year-01-05"; Animal = "Rat" },  # 11th month (approx.)
+        @{ Start = [datetime]"$year-01-06"; End = [datetime]"$year-02-03"; Animal = "Ox" },   # 12th month
+        @{ Start = [datetime]"$year-02-04"; End = [datetime]"$year-03-05"; Animal = "Tiger" }, # 1st month
+        @{ Start = [datetime]"$year-03-06"; End = [datetime]"$year-04-04"; Animal = "Rabbit" },# 2nd month
+        @{ Start = [datetime]"$year-04-05"; End = [datetime]"$year-05-05"; Animal = "Dragon" },# 3rd month
+        @{ Start = [datetime]"$year-05-06"; End = [datetime]"$year-06-05"; Animal = "Snake" }, # 4th month
+        @{ Start = [datetime]"$year-06-06"; End = [datetime]"$year-07-06"; Animal = "Horse" }, # 5th month
+        @{ Start = [datetime]"$year-07-07"; End = [datetime]"$year-08-06"; Animal = "Goat" },  # 6th month
+        @{ Start = [datetime]"$year-08-07"; End = [datetime]"$year-09-07"; Animal = "Monkey" },# 7th month
+        @{ Start = [datetime]"$year-09-08"; End = [datetime]"$year-10-07"; Animal = "Rooster" },# 8th month
+        @{ Start = [datetime]"$year-10-08"; End = [datetime]"$year-11-06"; Animal = "Dog" },   # 9th month
+        @{ Start = [datetime]"$year-11-07"; End = [datetime]"$year-12-06"; Animal = "Pig" },   # 10th month
+        @{ Start = [datetime]"$year-12-07"; End = [datetime]"$year-12-31"; Animal = "Rat" }    # 11th month
+    )
+    foreach ($range in $ranges) {
+        if ($Date -ge $range.Start -and $Date -le $range.End) {
+            return $range.Animal
+        }
+    }
+    return "Unknown"
+}
+
+# Calculate Chinese info
 function Get-ChineseInfo {
     param (
         [Parameter(Mandatory = $true)][datetime]$Date,
         [Parameter(Mandatory = $true)][int]$Year
     )
-    $monthAnimal = "Unknown"
+    # Determine Chinese year
     if ($chineseNewYearDates.ContainsKey($Year)) {
         $cnyDate = $chineseNewYearDates[$Year]
         $chineseYear = if ($Date -lt $cnyDate) { $Year - 1 } else { $Year }
@@ -90,22 +128,19 @@ function Get-ChineseInfo {
     }
     $animalIndex = ($chineseYear - 1924) % 12
     if ($animalIndex -lt 0) { $animalIndex += 12 }
-    $yearAnimal = $chineseAnimals[$animalIndex]
+    $yearAnimal = $script:chineseAnimals[$animalIndex]
 
-    if ($chineseNewYearDates.ContainsKey($Year)) {
-        $cnyDate = $chineseNewYearDates[$Year]
-        $monthStart = $cnyDate
-        $monthNumber = 1
-        while ($monthStart.AddDays(29.5) -lt $Date) {
-            $monthStart = $monthStart.AddDays(29.5)
-            $monthNumber++
-            if ($monthNumber -gt 13) { break }
-        }
-        $monthAnimal = $chineseMonthAnimals[($monthNumber - 1) % 12]
-    }
+    # Determine month animal using approximate ranges
+    $monthAnimal = Get-MonthAnimal -Date $Date
+
+    # Add descriptions
+    $monthDescription = $script:chinesePersonalityDescriptions[$monthAnimal]
+    $yearDescription = $script:chinesePhysiqueDescriptions[$yearAnimal]
 
     return @{
-        YearAnimal  = $yearAnimal
+        YearAnimal = $yearAnimal
         MonthAnimal = $monthAnimal
+        MonthDescription = $monthDescription
+        YearDescription = $yearDescription
     }
 }
