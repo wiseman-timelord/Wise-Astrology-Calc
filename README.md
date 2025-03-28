@@ -1,5 +1,5 @@
 # Wise-Astrology-Calc
-Status = Alpha
+Status = Alpha(Dreamspell or Power/Energy is broken currently)
 
 ### Description
 Its a Astrology system, where the aspects I believe hold most relevance and significance, this includes; DreamSpell Day, Tzolkin Day, Chinese Month, Chinese Year.
