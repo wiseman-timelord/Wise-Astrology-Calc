@@ -45,3 +45,4 @@ Selection; New Date = 0000/00/00, Today's Date = D, Exit Program = X:
 ## Development
 - Dreamspell or Power/Energy is broken, after multiple multiple re-attempts to fix this with, Grok3Beta and Deepseek R1. It must be completed, as its critical functioning.
 - There is other further development, possibly a gradio interface, or rainmeter integration.
+- There is some space, possibly we can implement some of this [Natal Chart](https://www.costarastrology.com/natal-chart/12682446) stuff.
