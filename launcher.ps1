@@ -1,65 +1,40 @@
-# launcher.ps1 - Main script for Wise-Astrology-Calc
+# launcher.ps1 - Startup, shutdown, mainLoop, globals
+if ($Host.Name -eq 'ConsoleHost') {
+    $Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size (80, 42)
+}
 
-# Import calculation functions
-. "$PSScriptRoot\scripts\calculate.ps1"
+$rootPath    = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$scriptPath  = Join-Path $rootPath 'scripts'
+$calcFile    = Join-Path $scriptPath 'calculate.ps1'
+$displayFile = Join-Path $scriptPath 'displays.ps1'
 
-# Set initial date
-$today = [datetime]"2025-03-26"
-$currentDate = $today
+foreach ($f in @($calcFile, $displayFile)) {
+    if (-not (Test-Path -LiteralPath $f)) { throw "Missing required file: $f" }
+}
 
-# Main loop
+try {
+    . $calcFile
+    . $displayFile
+} catch {
+    throw "Failed to load scripts: $_"
+}
+
+if (-not (Get-Command Show-UnifiedDisplay -ErrorAction SilentlyContinue)) {
+    throw "Function 'Show-UnifiedDisplay' not found in displays.ps1"
+}
+
+try   { $global:currentDate = [DateTime]::Today }
+catch { $global:currentDate = [DateTime]'2026-01-15' }
+
 while ($true) {
-    # Calculate astrology information
-    $jd = Get-JulianDay -Date $currentDate
-    $tzolkinInfo = Get-TzolkinInfo -JulianDay $jd
-    $dreamspellInfo = Get-DreamspellInfo -JulianDay $jd
-    $year = $currentDate.Year
-    $chineseInfo = Get-ChineseInfo -Date $currentDate -Year $year
-
-    # Display astrology information with descriptions
-    Clear-Host
-    Write-Host "========================================================================================================================"
-    Write-Host "    Wise-Astrology-Calc"
-    Write-Host "========================================================================================================================"
-    Write-Host ""
-    Write-Host ""
-    Write-Host ""
-    Write-Host ""
-    Write-Host ""	
-    Write-Host "Calculated Date: $($currentDate.ToString('yyyy/MM/dd'))"
-    Write-Host ""
-    Write-Host "Power/Energy: $($dreamspellInfo.Seal) $($dreamspellInfo.Tone)"
-    Write-Host "Details: $($dreamspellInfo.Description)"
-    Write-Host ""
-    Write-Host "Role/Ability: $($tzolkinInfo.Name) $($tzolkinInfo.Number)"
-    Write-Host "Details: $($tzolkinInfo.Description)"
-    Write-Host ""
-    Write-Host "Persona/Head: $($chineseInfo.MonthAnimal)"
-    Write-Host "Details: $($chineseInfo.MonthDescription)"
-    Write-Host ""
-    Write-Host "Physique/Body: $($chineseInfo.YearAnimal)"
-    Write-Host "Details: $($chineseInfo.YearDescription)"
-    Write-Host ""
-	Write-Host ""
-	Write-Host ""
-	Write-Host ""
-	Write-Host ""
-    Write-Host "------------------------------------------------------------------------------------------------------------------------"
-
-    # User input
-    $input = Read-Host -Prompt "Selection; New Date = 0000/00/00, Today's Date = D, Exit Program = X"
-    switch ($input) {
-        "X" { exit }
-        "D" { $currentDate = $today }
+    Show-UnifiedDisplay -DisplayDate $global:currentDate
+    $in = Read-Host "Selection; Refresh Display, Exit Program = x"
+    switch ($in.Trim().ToUpper()) {
+        'X'    { exit }
+        ''     { continue }
         default {
-            try {
-                $newDate = [datetime]::ParseExact($input, "yyyy/MM/dd", $null)
-                $currentDate = $newDate
-            }
-            catch {
-                Write-Host "Invalid date format. Please use YYYY/MM/DD."
-                Start-Sleep -Seconds 2
-            }
+            try { $global:currentDate = [DateTime]::ParseExact($in, 'yyyy/MM/dd', $null) }
+            catch { <# Invalid date -> silently refresh #> }
         }
     }
 }
