@@ -1,5 +1,5 @@
-# Wise-Astrology-Calc
-Status = Alpha (Dreamspell or Power/Energy is broken currently, multiple re-attempts. Project on pause until this can be fixed later.)
+# Wise-Astro-Calc
+Status = Alpha - This is being worked on, as a side project.
 
 ### Description
 Its a Astrology system, where the aspects I believe hold most relevance and significance, this includes; DreamSpell Day, Tzolkin Day, Chinese Month, Chinese Year.
@@ -40,9 +40,9 @@ Selection; New Date = 0000/00/00, Today's Date = D, Exit Program = X:
 
 ## Requirements
 - Windows 7-11
-- Powershell ~v5
+- Powershell v5+
 
 ## Development
-- Dreamspell or Power/Energy is broken, after multiple multiple re-attempts to fix this with, Grok3Beta and Deepseek R1. It must be completed, as its critical functioning.
-- There is other further development, possibly a gradio interface, or rainmeter integration.
+- Role (tzolkin) is broken at the moment. 
+- There is other further development, possibly a interface, or desktop/rainmeter integration.
 - There is some space, possibly we can implement some of this [Natal Chart](https://www.costarastrology.com/natal-chart/12682446) stuff.
