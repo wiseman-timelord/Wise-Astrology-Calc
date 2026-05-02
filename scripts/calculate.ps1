@@ -38,9 +38,21 @@ function Get-TzolkinInfo {
     $refNumber = 4
     $refDayIndex = 19
     $daysSinceRef = $JulianDay - $refJD
+
     $tzolkinNumber = (($daysSinceRef + $refNumber - 1) % 13) + 1
     $dayIndex = ($daysSinceRef + $refDayIndex) % 20
-    return @{ Number = $tzolkinNumber; Name = $script:tzolkinNames[$dayIndex]; DayIndex = $dayIndex }
+
+    return @{
+        Number     = $tzolkinNumber
+        Name       = $script:tzolkinNames[$dayIndex]
+        DayIndex   = $dayIndex
+        # Debug/Workings exposed for Role/Ability verification
+        JD         = $JulianDay
+        RefJD      = $refJD
+        DaysDiff   = $daysSinceRef
+        NumFormula = "(($daysSinceRef + $refNumber - 1) % 13) + 1 = $tzolkinNumber"
+        DayFormula = "($daysSinceRef + $refDayIndex) % 20 = $dayIndex"
+    }
 }
 
 function Get-DreamspellInfo {
@@ -102,34 +114,4 @@ function Get-ChineseInfo {
     $animalIndex = ($chineseYear - 1924) % 12
     if ($animalIndex -lt 0) { $animalIndex += 12 }
     return @{ YearAnimal = $script:chineseAnimals[$animalIndex]; MonthAnimal = Get-MonthAnimal -Date $Date }
-}
-
-function Get-TimeSince3114BCE {
-    param([Parameter(Mandatory=$true)][datetime]$CurrentDate)
-    $refJD = 584283
-    $currentJD = Get-JulianDay -Date $CurrentDate
-    $totalDays = $currentJD - $refJD
-    return @{ TotalDays = $totalDays; TotalMonths = [math]::Floor($totalDays / 30.436875); TotalYears = [math]::Floor($totalDays / 365.2425) }
-}
-
-function Get-AlternativeCalendarDate {
-    param([Parameter(Mandatory=$true)][datetime]$CurrentDate)
-    $transitionDate = [datetime]'2025-12-21'
-    if ($CurrentDate -lt $transitionDate) {
-        $altYear = 0; $altMonth = 0; $altDay = 0
-        $tempDate = $transitionDate
-        while ($tempDate -gt $CurrentDate) {
-            $altDay--
-            if ($altDay -lt 1) { $altMonth--; if ($altMonth -lt 1) { $altYear--; $altMonth = 12 }; $altDay = 30 }
-            $tempDate = $tempDate.AddDays(-1)
-        }
-        $altDay = -$altDay; $altMonth = -$altMonth; $altYear = -$altYear
-    } else {
-        $daysDiff = ($CurrentDate - $transitionDate).Days
-        $altYear = [math]::Floor($daysDiff / 360) + 1
-        $remainingDays = $daysDiff % 360
-        $altMonth = [math]::Floor($remainingDays / 30) + 1
-        $altDay = ($remainingDays % 30) + 1
-    }
-    return @{ Year = $altYear; Month = $altMonth; Day = $altDay; IsBeforeTransition = ($CurrentDate -lt $transitionDate); TransitionDate = $transitionDate }
 }

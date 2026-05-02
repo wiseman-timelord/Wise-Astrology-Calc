@@ -28,9 +28,11 @@ catch { $global:currentDate = [DateTime]'2026-01-15' }
 
 while ($true) {
     Show-UnifiedDisplay -DisplayDate $global:currentDate
-    $in = Read-Host "Selection; Refresh Display, Exit Program = x"
+    $prompt = "Selection; New Date = $($global:currentDate.ToString('yyyy/MM/dd')), Today's Date = D, Exit Program = X"
+    $in = Read-Host $prompt
     switch ($in.Trim().ToUpper()) {
         'X'    { exit }
+        'D'    { $global:currentDate = [DateTime]::Today; continue }
         ''     { continue }
         default {
             try { $global:currentDate = [DateTime]::ParseExact($in, 'yyyy/MM/dd', $null) }

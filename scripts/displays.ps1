@@ -92,9 +92,6 @@ function Show-UnifiedDisplay {
     $tzolkin      = Get-TzolkinInfo -JulianDay $jd
     $dreamspell   = Get-DreamspellInfo -JulianDay $jd
     $chinese      = Get-ChineseInfo -Date $DisplayDate -Year $DisplayDate.Year
-    $since3114    = Get-TimeSince3114BCE -CurrentDate $DisplayDate
-    $altCal       = Get-AlternativeCalendarDate -CurrentDate $DisplayDate
-    $altFormatted = Format-AlternativeCalendar -AltDate $altCal
 
     $dreamDesc   = $script:dreamspellSealDescriptions[$dreamspell.SealIndex]
     $tzolkinDesc = $script:tzolkinDayDescriptions[$tzolkin.DayIndex]
@@ -104,7 +101,7 @@ function Show-UnifiedDisplay {
     Clear-Host
     $sep = '=' * 79
     Write-Host $sep
-    Write-Host '    Wise-AstroDate-Calc – Unified Display' -ForegroundColor Cyan
+    Write-Host '    Wise-AstroDate-Calc - Unified Display' -ForegroundColor Cyan
     Write-Host $sep
     Write-Host ' '
     Write-Host "SYSTEM DATE    : $([DateTime]::Now.ToString('yyyy/MM/dd HH:mm:ss'))" -ForegroundColor Yellow
@@ -126,15 +123,13 @@ function Show-UnifiedDisplay {
     Write-Host "Details      : $yearDesc"
     Write-Host ' '
     Write-Host $sep
-    Write-Host 'DATE CALCULATIONS' -ForegroundColor Magenta
+    Write-Host 'TZOLKIN WORKINGS (Role/Ability Debug)' -ForegroundColor Magenta
     Write-Host $sep
-    Write-Host 'Time since August 11, 3114 BCE:'
-    Write-Host "  Total Days  : $($since3114.TotalDays.ToString('N0'))"
-    Write-Host "  Total Months: $($since3114.TotalMonths.ToString('N0'))"
-    Write-Host "  Total Years : $($since3114.TotalYears.ToString('N0'))"
-    Write-Host ' '
-    Write-Host 'Alternative Calendar (2025-12-21 = Year 1 Month 1 Day 1):'
-    Write-Host "  Date: $altFormatted   (B.T. = Before Transition, A.T. = After Transition)"
+    Write-Host "Julian Day (Target) : $($tzolkin.JD)"
+    Write-Host "Reference JD (4 Ahau): $($tzolkin.RefJD)"
+    Write-Host "Days Difference     : $($tzolkin.DaysDiff)"
+    Write-Host "Number Formula      : $($tzolkin.NumFormula)"
+    Write-Host "Day Index Formula   : $($tzolkin.DayFormula)"
     Write-Host ' '
     Write-Host $sep
 }
