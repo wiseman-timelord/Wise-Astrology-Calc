@@ -1,10 +1,10 @@
-:: Script: `.\Wise-AstroDate-Calc.Bat`
+:: Script: `.\Wise-Astro-Calc.Bat`
 
 :: Initialization
 @echo off
 setlocal enabledelayedexpansion
-title Wise-AstroDate-Calc
-set "scriptTitle=Wise-AstroDate-Calc"
+title Wise-Astro-Calc
+set "scriptTitle=Wise-Astro-Calc"
 color 80
 echo Initialization Complete.
 timeout /t 1 >nul

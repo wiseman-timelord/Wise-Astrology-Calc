@@ -101,7 +101,7 @@ function Show-UnifiedDisplay {
     Clear-Host
     $sep = '=' * 79
     Write-Host $sep
-    Write-Host '    Wise-AstroDate-Calc - Unified Display' -ForegroundColor Cyan
+    Write-Host '    Wise-Astro-Calc - Unified Display' -ForegroundColor Cyan
     Write-Host $sep
     Write-Host ' '
     Write-Host "SYSTEM DATE    : $([DateTime]::Now.ToString('yyyy/MM/dd HH:mm:ss'))" -ForegroundColor Yellow
